@@ -1,0 +1,212 @@
+//-----------------------------------------------------------------------------
+// DirectConnectDlg.gui
+// Multiplayer Hax Package
+// Copyright (C) 2012 The Multiplayer Team
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//------------------------------------------------------------------------------
+
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(DirectConnectDlg) {
+   profile = "GuiDialogProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "640 480";
+   minExtent = "8 8";
+   visible = "1";
+   helpTag = "0";
+
+   new GuiBitmapCtrl() {
+      profile = "GuiDefaultProfile";
+      horizSizing = "center";
+      vertSizing = "center";
+      position = "139 163";
+      extent = "362 154";
+      minExtent = "8 8";
+      visible = "1";
+      helpTag = "0";
+      bitmap = "~/client/ui/play/playgui";
+      wrap = "0";
+
+      new GuiBitmapCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "37 33";
+         extent = "303 52";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         bitmap = "common/ui/window";
+         wrap = "0";
+      };
+      new GuiTextEditCtrl(DirectConnectEdit) {
+         profile = "GuiBigTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "64 42";
+         extent = "259 36";
+         minExtent = "8 8";
+         visible = "1";
+         command = "ipChanged();";
+         escapeCommand = "Canvas.popDialog(DirectConnectDlg);";
+         altCommand = "DirectConnectDlg.joingame();";
+         helpTag = "0";
+         maxLength = "255";
+         maxPixelWidth = "0";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(DirectConnectJoin) {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "221 90";
+         extent = "115 51";
+         minExtent = "8 8";
+         visible = "1";
+         command = "DirectConnectDlg.joingame();";
+         helpTag = "0";
+         text = "Join";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/join";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "43 90";
+         extent = "115 51";
+         minExtent = "8 8";
+         visible = "1";
+         command = "canvas.popdialog(DirectConnectDlg);";
+         helpTag = "0";
+         text = "Cancel";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/cancel";
+      };
+   };
+};
+//--- OBJECT WRITE END ---
+
+function DirectConnectDlg::joinGame(%this)
+{
+   if ($IPGood !$= "Good") {
+      MessageBoxOk("Invalid Address", $IPGood);
+      return;
+   }
+   %ip = trim(DirectConnectEdit.getValue());
+   if (%ip $= "")
+      return;
+   joinServer(%ip);
+   Canvas.popDialog(%this);
+}
+
+function showConnect()
+{
+   Canvas.pushDialog(DirectConnectDlg);
+   ipChanged();
+}
+
+function IPCheck(%ip) {
+   //Do IP check
+   %error = "";
+   %ext = "";
+   for (%i = strLen(%ip) - 1; %i >= 0; %i --) {
+      %on = getSubStr(%ip, %i, 1);
+      %ext = %on @ %ext;
+      if (%on $= ".")
+         break;
+   }
+   for (%i = 0; %i < getWordCount($WebAddressExtensions); %i ++) {
+      %extOn = "." @ getWord($WebAddressExtensions, %i);
+      if (%ext $= %extOn) {
+         return "Good";
+      }
+   }
+   %pos = strPos(%ip, ".");
+   if (%pos == -1) { //Beautiful, beautiful, errors
+      %error = "Incomplete IP Address";
+      return %error;
+   }
+   %first = getSubStr(%ip, 0, strPos(%ip, "."));
+   if (%first < 0 || %first > 255 || (%first $= "" && %first !$= "0")) {
+      %error = "First number is invalid";
+      return %error;
+   }
+   %ip = getSubStr(%ip, strPos(%ip, ".") + 1, strLen(%ip));
+   %pos = strPos(%ip, ".");
+   if (%pos == -1) {
+      %error = "Incomplete IP Address";
+      return %error;
+   }
+   %second = getSubStr(%ip, 0, strPos(%ip, "."));
+   if (%second < 0 || %second > 255 || (%second $= "" && %second !$= "0")) {
+      %error = "Second number is invalid";
+      return %error;
+   }
+   %ip = getSubStr(%ip, strPos(%ip, ".") + 1, strLen(%ip));
+   %pos = strPos(%ip, ".");
+   if (%pos == -1) {
+      %error = "Incomplete IP Address";
+      return %error;
+   }
+   %third = getSubStr(%ip, 0, strPos(%ip, "."));
+   if (%third < 0 || %third > 255 || (%third $= "" && %third !$= "0")) {
+      %error = "Third number is invalid";
+      return %error;
+   }
+   %ip = getSubStr(%ip, strPos(%ip, ".") + 1, strLen(%ip));
+   %pos = strPos(%ip, ".");
+   if (%pos != -1) {
+      %error = "Extra digits";
+      return %error;
+   }
+   %fourth = getSubStr(%ip, 0, strLen(%ip));
+   if (%fourth < 0 || %fourth > 255 || (%fourth $= "" && %fourth !$= "0")) {
+      %error = "Fourth number is invalid";
+      return %error;
+   }
+   if (strStr(%ip, ":") != -1) { //Port
+
+   }
+   return "Good";
+}
+
+function ipChanged() {
+   //Do IP check
+   %responce = IPCheck(DirectConnectEdit.getValue());
+   $IPGood = %responce;
+   DirectConnectJoin.setActive(1);
+   if (%responce !$= "Good")
+      DirectConnectJoin.setActive(0);
+}
+
+$WebAddressExtensions = "a bitnet ac ad ae af ag ai al am an ao aq ar as at au aw az ba bb bd be bf bg bh bi bj bm bn bo br bs bt bv bw by bz ca cc cf cg ch ci ck cl cm cn co com cr cs cu cv cx cy cz de dj dk dm do dz ec edu ee eg eh er es et fi fj fk fm fo fr fx ga gb gd ge gf gh gi gl gm gn gov gp gq gr gs gt gu gw gy hk hm hn hr ht hu id ie il in io iq ir is it jm jo jp ke kg kh ki km kn kp kr kw ky kz la lb lc li lk lr ls lt lu lv ly ma mc md mg mh mil mk ml mm mn mo mp mq mr ms mt mu mv mw mx my mz na nc ne net nf ng ni nl no np nr nt nu nz om org pa pe pf pg ph pk pl pm pn pr pt pw py qa re ro ru rw sa sb sc sd se sg sh si sj sk sl sm sn so sr st su sv sy sz tc td tf tg th tj tk tm tn to tp tr tt tv tw tz ua ug uk um us uy uz va vc ve vg vi vn vu wf ws ye yt yu za zm zr zw";

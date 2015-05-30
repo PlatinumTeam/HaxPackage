@@ -1,0 +1,534 @@
+//-----------------------------------------------------------------------------
+// masterServerGui.gui
+// Copyright (C) 2012 Jeffrey Hutchinson
+// Copyright (C) 2012 HiGuy Smith
+// Portions copyright (c) 2012 TGE
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//------------------------------------------------------------------------------
+
+$pref::Net::DisplayOnMaster = "Always";
+
+//--- OBJECT WRITE BEGIN ---
+new GuiChunkedBitmapCtrl(MasterServerGui) {
+   profile = "GuiContentProfile";
+   horizSizing = "width";
+   vertSizing = "height";
+   position = "0 0";
+   extent = "640 480";
+   minExtent = "8 8";
+   visible = "1";
+   helpTag = "0";
+   bitmap = "~/client/ui/background.jpg";
+   useVariable = "0";
+   tile = "0";
+      querying = "0";
+      querySch = "85";
+      progress = "1";
+      queryMaxServers = "1";
+      queryStatus = "1";
+
+   new GuiControl() {
+      profile = "GuiDefaultProfile";
+      horizSizing = "center";
+      vertSizing = "center";
+      position = "5 18";
+      extent = "630 444";
+      minExtent = "8 8";
+      visible = "1";
+      helpTag = "0";
+
+      new GuiBitmapCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "width";
+         vertSizing = "height";
+         position = "0 0";
+         extent = "630 444";
+         minExtent = "48 92";
+         visible = "1";
+         helpTag = "0";
+         bitmap = "~/client/ui/play/playgui";
+         wrap = "0";
+
+         new GuiMLTextCtrl() {
+            profile = "GuiMLTextProfile";
+            horizSizing = "center";
+            vertSizing = "bottom";
+            position = "188 27";
+            extent = "254 36";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            lineSpacing = "2";
+            allowColorChars = "0";
+            maxChars = "-1";
+               text = "<font:DomCasualD:36><color:000000><just:center>Server List";
+         };
+         new GuiMLTextCtrl() {
+            profile = "GuiMLTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "60 82";
+            extent = "71 12";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            lineSpacing = "2";
+            allowColorChars = "0";
+            maxChars = "-1";
+               text = "<font:Arial:12><color:000000>Server Name:";
+         };
+         new GuiMLTextCtrl() {
+            profile = "GuiMLTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "153 82";
+            extent = "63 12";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            lineSpacing = "2";
+            allowColorChars = "0";
+            maxChars = "-1";
+               text = "<font:Arial:12><color:000000>Level Name:";
+         };
+         new GuiMLTextCtrl() {
+            profile = "GuiMLTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "370 82";
+            extent = "60 12";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            lineSpacing = "2";
+            allowColorChars = "0";
+            maxChars = "-1";
+               text = "<font:Arial:12><color:000000>Game Mode:";
+         };
+         new GuiMLTextCtrl() {
+            profile = "GuiMLTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "440 82";
+            extent = "44 12";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            lineSpacing = "2";
+            allowColorChars = "0";
+            maxChars = "-1";
+               text = "<font:Arial:12><color:000000>Players:";
+         };
+         new GuiMLTextCtrl() {
+            profile = "GuiMLTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "482 82";
+            extent = "51 12";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            lineSpacing = "2";
+            allowColorChars = "0";
+            maxChars = "-1";
+               text = "<font:Arial:12><color:000000>Password:";
+         };
+         new GuiMLTextCtrl() {
+            profile = "GuiMLTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "529 82";
+            extent = "51 12";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            lineSpacing = "2";
+            allowColorChars = "0";
+            maxChars = "-1";
+               text = "<font:Arial:12><color:000000>Dedicated:";
+         };
+         new GuiMLTextCtrl(QueryText) {
+            profile = "GuiMLTextProfile";
+            horizSizing = "center";
+            vertSizing = "top";
+            position = "27 336";
+            extent = "576 14";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            lineSpacing = "2";
+            allowColorChars = "0";
+            maxChars = "-1";
+               text = "Text";
+               hideSch = "84";
+         };
+         new GuiBitmapButtonCtrl() {
+            profile = "GuiButtonProfile";
+            horizSizing = "right";
+            vertSizing = "top";
+            position = "59 363";
+            extent = "66 56";
+            minExtent = "8 8";
+            visible = "1";
+            command = "Canvas.setContent(PlayMissionGui);";
+            helpTag = "0";
+            text = "Back";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            repeatPeriod = "1000";
+            repeatDecay = "1";
+            bitmap = "~/client/ui/play/back";
+               simpleStyle = "0";
+         };
+         new GuiBitmapButtonCtrl(MasterQueryButton) {
+            profile = "GuiButtonProfile";
+            horizSizing = "left";
+            vertSizing = "top";
+            position = "480 364";
+            extent = "110 56";
+            minExtent = "8 8";
+            visible = "1";
+            command = "MasterServerGui.query();";
+            helpTag = "0";
+            text = "Query";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            repeatPeriod = "1000";
+            repeatDecay = "1";
+            bitmap = "./images/refresh";
+               simpleStyle = "0";
+         };
+         new GuiBitmapButtonCtrl(MasterServerPlay) {
+            profile = "GuiButtonProfile";
+            horizSizing = "left";
+            vertSizing = "top";
+            position = "253 364";
+            extent = "114 56";
+            minExtent = "8 8";
+            visible = "1";
+            command = "MasterServerGui.play();";
+            helpTag = "0";
+            text = "Play";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            repeatPeriod = "1000";
+            repeatDecay = "1";
+            bitmap = "./images/join";
+               simpleStyle = "0";
+         };
+         new GuiBitmapCtrl() {
+            profile = "GuiDefaultProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "44 98";
+            extent = "560 218";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            bitmap = "./images/list";
+            wrap = "0";
+         };
+         new GuiScrollCtrl() {
+            profile = "GuiBigInvisibleScrollProfile";
+            horizSizing = "width";
+            vertSizing = "height";
+            position = "55 113";
+            extent = "541 195";
+            minExtent = "8 8";
+            visible = "1";
+            helpTag = "0";
+            willFirstRespond = "1";
+            hScrollBar = "alwaysOff";
+            vScrollBar = "alwaysOn";
+            constantThumbHeight = "0";
+            childMargin = "0 0";
+
+            new GuiTextListCtrl(MasterServerList) {
+               profile = "GuiBigMasterTextListProfile";
+               horizSizing = "right";
+               vertSizing = "bottom";
+               position = "1 1";
+               extent = "521 22";
+               minExtent = "8 8";
+               visible = "1";
+               command = "MasterServerGui.onSelect();";
+               helpTag = "0";
+               enumerate = "0";
+               resizeCell = "1";
+               columns = "0 93 312 380 423 470 522";
+               fitParentWidth = "1";
+               clipColumnText = "0";
+                  noDuplicates = "false";
+            };
+         };
+         new GuiProgressCtrl(QueryProgress) {
+            profile = "GuiProgressProfile";
+            horizSizing = "center";
+            vertSizing = "top";
+            position = "21 328";
+            extent = "587 29";
+            minExtent = "8 8";
+            visible = "0";
+            helpTag = "0";
+               hideSch = "83";
+         };
+      };
+   };
+};
+//--- OBJECT WRITE END ---
+
+function MasterServerGui::onWake(%this) {
+	//HiGuy: Update (2015): Just use JoinServerGui
+	MessageBoxOk("Broken Feature, see MasterServerGui.gui", "Broken Feature, see MasterServerGui.gui");
+	return;
+
+   MasterServerPlay.setActive(false);
+   $MasterServerGui::wasAwake = true;
+   %this.querying = false;
+   %this.schedule(100, "query");
+   %this.querySch = %this.schedule(10000, "query");
+}
+
+function MasterServerGui::onSleep(%this) {
+   cancel(%this.querySch);
+   %this.querying = false;
+   $MasterServerGui::wasAwake = false;
+}
+
+function MasterServerGui::query(%this) {
+   if (%this.querying) {
+      MasterQuery.disconnect();
+      MasterQuery.delete();
+      return;
+   }
+   cancel(%this.querySch);
+   deleteVariables("$Master::Server*");
+   if (isObject(MasterQuery))
+      MasterQuery.cancel();
+   %values = "Mod=" @ URLEncode($Master::Mod);
+   $Master::ServerCount = 0;
+   MasterQueryButton.setText("Refresh");
+   cancel(QueryProgress.hideSch);
+   cancel(QueryText.hideSch);
+   QueryProgress.setVisible(true);
+   %this.querying = true;
+   %this.progress = 0;
+   %this.queryStatus = 0;
+   %this.queryMaxServers = 1;
+   QueryProgress.setValue(%this.progress);
+
+   QueryText.setText("<font:futura:14><color:000000><just:center>Starting query...");
+   new TCPObject(MasterQuery);
+   MasterQuery.get($Master::Server, $Master::Path @ "query.php?" @ %values);
+}
+
+function MasterServerGui::finishQuery(%this) {
+   cancel(%this.querySch);
+   %this.querying = false;
+   QueryProgress.setValue(1);
+   MasterQueryButton.setText("Query");
+   QueryText.setText("<font:futura:14><color:000000><just:center>Query Completed!");
+   QueryProgress.hideSch = QueryProgress.schedule(1000, "setVisible", false);
+   QueryText.hideSch = QueryText.schedule(1000, "setText", "");
+   %this.querySch = %this.schedule(10000, "query");
+}
+
+function MasterServerGui::updateProgress(%this) {
+   cancel(%this.query);
+   if (%this.queryStatus >= %this.queryMaxServers) {
+      %this.queryStatus = 0;
+      %this.finishQuery();
+      return;
+   }
+   QueryProgress.setValue(%this.progress += (1 / %this.queryMaxServers));
+   //then do the code here to connect, query, ect.
+   //giving the client 10 seconds to connect...
+   %this.queryStatus ++;
+}
+
+function MasterServerGui::onSelect(%this) {
+   MasterServerPlay.setActive(true);
+}
+
+function MasterServerGui::play(%this) {
+   joinServer(getField($Master::Line[MasterServerList.getSelectedId()],0));
+}
+
+function MasterServerGui::updateList(%this) {
+   %string = "";
+   MasterServerList.clear();
+   for (%i = 0; %i < $Master::ServerCount; %i ++) {
+      %line = $Master::Line[%i];
+      %string = "";
+      %dev = $Master::Dev[%i] $= "Yes";
+      for (%j = 1; %j < getFieldCount(%line); %j ++) {
+         if (%string $= "") {
+            %string = %string @ (%dev ? "\c4" : "") @ getField(%line,%j);
+         } else {
+            %string = %string TAB (%dev ? "\c4" : "") @ getField(%line,%j);
+         }
+      }
+      MasterServerList.addRow(%i, %string);
+   }
+}
+
+function MasterServerGui::showReceivedCount(%this) {
+   QueryText.setText("<font:futura:14><color:000000><just:center>Received server count:" SPC %this.queryMaxServers);
+}
+
+function MasterQuery::onLine(%this,%line) {
+   Parent::onLine(%this,%line);
+//If we get CONNECT FAILED then :(
+//Server will send out updates when queried like this:
+//SERVERS COUNT:<count>
+//<pause>
+//SERVERS START
+//SERVER:<address>:<name>:<level>:<mode>:<players>:<password>:<dedicated>:<version>:<dev>
+//<pause>
+//SERVER:<address>:<name>:<level>:<mode>:<players>:<password>:<dedicated>:<version>:<dev>
+//<pause>
+//SERVER:<address>:<name>:<level>:<mode>:<players>:<password>:<dedicated>:<version>:<dev>
+//<pause>
+//SERVER:<address>:<name>:<level>:<mode>:<players>:<password>:<dedicated>:<version>:<dev>
+//<pause>
+//SERVERS END
+
+   //%this.echo(%line);
+
+   if (strPos(%line, "SERVERS COUNT:") == 0) {
+      %serverCount = getSubStr(%line, strLen("SERVERS COUNT:"), strLen(%line));
+      MasterServerGui.queryMaxServers = %serverCount;
+      MasterServerGui.showReceivedCount();
+   }
+
+   if (%line $= "SERVERS END") {
+      %this.receiving = false;
+      MasterServerGui.finishQuery();
+      MasterServerGui.updateList();
+   }
+
+   if (%this.receiving) {
+      if (strPos(%line, "SERVER:") == 0) { //Server data
+         %serverData = getSubStr(%line, strLen("SERVER:"), strLen(%line));
+         %nextColon = strPos(%serverData, ":");
+         %address = getSubStr(%serverData, 0, %nextColon);
+         %serverData = getSubStr(%serverData, %nextColon + 1, strLen(%serverData));
+         %nextColon = strPos(%serverData, ":");
+         %name = getSubStr(%serverData, 0, %nextColon);
+         %serverData = getSubStr(%serverData, %nextColon + 1, strLen(%serverData));
+         %nextColon = strPos(%serverData, ":");
+         %level = getSubStr(%serverData, 0, %nextColon);
+         %serverData = getSubStr(%serverData, %nextColon + 1, strLen(%serverData));
+         %nextColon = strPos(%serverData, ":");
+         %mode = getSubStr(%serverData, 0, %nextColon);
+         %serverData = getSubStr(%serverData, %nextColon + 1, strLen(%serverData));
+         %nextColon = strPos(%serverData, ":");
+         %players = getSubStr(%serverData, 0, %nextColon);
+         %serverData = getSubStr(%serverData, %nextColon + 1, strLen(%serverData));
+         %nextColon = strPos(%serverData, ":");
+         %password = getSubStr(%serverData, 0, %nextColon);
+         %serverData = getSubStr(%serverData, %nextColon + 1, strLen(%serverData));
+         %nextColon = strPos(%serverData, ":");
+         %dedicated = getSubStr(%serverData, 0, %nextColon);
+         %serverData = getSubStr(%serverData, %nextColon + 1, strLen(%serverData));
+         %nextColon = strPos(%serverData, ":");
+         %version = getSubStr(%serverData, 0, %nextColon);
+         %serverData = getSubStr(%serverData, %nextColon + 1, strLen(%serverData));
+         %nextColon = strPos(%serverData, ":");
+         if (%nextColon != -1)
+            %dev = getSubStr(%serverData, 0, %nextColon);
+         else
+            %dev = %serverData;
+         %password = %password ? "Yes" : "No";
+         %dev = %dev ? "Yes" : "No";
+         %dedicated = %dedicated ? "Yes" : "No";
+
+         %address = URLDecode(%address);
+         %name = URLDecode(%name);
+         %mode = URLDecode(%mode);
+         %level = URLDecode(%level);
+
+         //%address, %name, %level, %mode, %players, %password
+         //echo("Received Server Number" SPC $Master::ServerCount @ ":" SPC %address SPC %name SPC %level SPC %mode SPC %players SPC %password SPC %dedicated SPC %version SPC %dev);
+         $Master::Line[$Master::ServerCount] = %address TAB %name TAB %level TAB %mode TAB %players TAB %password TAB %dedicated TAB %version TAB getMissionObjectFromFile(%level);
+         $Master::Dev[$Master::ServerCount] = %dev;
+         $Master::ServerCount ++;
+         MasterServerGui.updateProgress();
+         MasterServerGui.updateList();
+      }
+   }
+
+   if (%line $= "SERVERS START") {
+      %this.receiving = true;
+   }
+}
+
+function getMissionObjectFromFile(%missionFile) {
+   %file = new FileObject();
+   %missionInfoObject = "";
+   if (%file.openForRead(%missionFile)) {
+		%inInfoBlock = false;
+		while (!%file.isEOF()) {
+			%line = %file.readLine();
+			%line = trim(%line);
+			if (strPos(%line, "//") != -1)
+			   %line = getSubStr(%line, 0, strPos(%line, "//"));
+			if (%line $= "new ScriptObject(MissionInfo) {") {
+				%line = "new ScriptObject() {";
+				%inInfoBlock = true;
+			} else if (%inInfoBlock && %line $= "};") {
+				%inInfoBlock = false;
+				%missionInfoObject = %missionInfoObject @ %line;
+            break;
+			}
+			if (%inInfoBlock) {
+			   %missionInfoObject = %missionInfoObject @ %line @ " ";
+         }
+		}
+		%file.close();
+	}
+
+	if (%missionInfoObject $= "")
+	   return;
+	%missionInfoObject = "%missionInfoObject = " @ %missionInfoObject;
+	eval( %missionInfoObject );
+
+   // find the directory this file belongs in:
+
+   %groupTab = getGroupTab(%missionFile);
+   %missionInfoObject.type = %groupTab;
+	%missionInfoObject.file = %missionFile;
+	%file.delete();
+	return %missionInfoObject;
+}
+
+function getGroupTab(%mission) {
+   %path = filePath(%mission);
+   %misPath = filePath(%path);
+
+   if(%misPath !$= "platinum/data/missions")
+      %groupTab = "custom";
+   else
+      %groupTab = fileBase(%path);
+
+   return %groupTab;
+}

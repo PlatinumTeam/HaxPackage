@@ -1,0 +1,298 @@
+//-----------------------------------------------------------------------------
+// PauseDlg.gui
+// Multiplayer Hax Package
+// Copyright (C) 2012 The Multiplayer Team
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//------------------------------------------------------------------------------
+
+
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(PauseDlg) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "width";
+   vertSizing = "height";
+   position = "0 0";
+   extent = "640 480";
+   minExtent = "8 8";
+   visible = "1";
+   helpTag = "0";
+      restartCallback = "resumeGame(); restartLevel();";
+
+   new GuiBitmapCtrl(PauseAdminBox) {
+      profile = "GuiDefaultProfile";
+      horizSizing = "center";
+      vertSizing = "center";
+      position = "126 116";
+      extent = "388 248";
+      minExtent = "48 92";
+      visible = "1";
+      helpTag = "0";
+      bitmap = "~/client/ui/play/playGui.png";
+      wrap = "0";
+
+      new GuiMLTextCtrl(PauseAdminText) {
+         profile = "GuiComic24Profile";
+         horizSizing = "center";
+         vertSizing = "bottom";
+         position = "100 27";
+         extent = "198 36";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         lineSpacing = "2";
+         allowColorChars = "0";
+         maxChars = "-1";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "132 175";
+         extent = "135 57";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.popDialog(PauseDlg); pauseDisconnect(1);";
+         accelerator = "return";
+         helpTag = "0";
+         text = "Disconnect";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/disconnect";
+            simpleStyle = "0";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "47 62";
+         extent = "135 57";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.popDialog(PauseDlg); resumeGame();";
+         accelerator = "escape";
+         helpTag = "0";
+         text = "Resume";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/resume";
+            simpleStyle = "0";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "225 66";
+         extent = "135 57";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.popDialog(PauseDlg); resumeGame(); commandToServer(\'restart\');";
+         accelerator = "tab";
+         helpTag = "0";
+         text = "Restart";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/restart";
+            simpleStyle = "0";
+      };
+      new GuiBitmapButtonCtrl(PD_Admin) {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "50 121";
+         extent = "120 54";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.pushDialog(adminPanelDlg);";
+         helpTag = "0";
+         text = "Admin";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/admin";
+            simpleStyle = "0";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "223 123";
+         extent = "135 57";
+         minExtent = "8 8";
+         visible = "1";
+         command = "selectNewLevel();";
+         accelerator = "escape";
+         helpTag = "0";
+         text = "Change Level";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/levels";
+            simpleStyle = "0";
+      };
+   };
+   new GuiBitmapCtrl(PauseBox) {
+      profile = "GuiDefaultProfile";
+      horizSizing = "center";
+      vertSizing = "center";
+      position = "126 138";
+      extent = "388 203";
+      minExtent = "48 92";
+      visible = "0";
+      helpTag = "0";
+      bitmap = "~/client/ui/play/playGui.png";
+      wrap = "0";
+
+      new GuiMLTextCtrl(PauseText) {
+         profile = "GuiComic24Profile";
+         horizSizing = "center";
+         vertSizing = "bottom";
+         position = "95 27";
+         extent = "198 36";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         lineSpacing = "2";
+         allowColorChars = "0";
+         maxChars = "-1";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "129 130";
+         extent = "135 57";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.popDialog(PauseDlg); pauseDisconnect(0);";
+         accelerator = "return";
+         helpTag = "0";
+         text = "Disconnect";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/disconnect";
+            simpleStyle = "0";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "47 77";
+         extent = "135 57";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.popDialog(PauseDlg); resumeGame();";
+         accelerator = "escape";
+         helpTag = "0";
+         text = "Resume";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/resume";
+            simpleStyle = "0";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "200 77";
+         extent = "145 45";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.popDialog(PauseDlg); resumeGame(); commandToServer(\'restart\');";
+         accelerator = "tab";
+         helpTag = "0";
+         text = "Restart";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/restart";
+            simpleStyle = "0";
+      };
+   };
+};
+//--- OBJECT WRITE END ---
+
+if (!$MP::Admin::EnableAdminPanel)
+   PD_Admin.delete();
+
+function selectNewLevel() {
+   PlayMissionGui.setBitmap("");
+   Canvas.pushDialog(PlayMissionGui);
+   PM_Home.command = "fixPM();";
+   PM_Join.setVisible(0);
+   PM_Toggle.setVisible(false);
+   if ($Server::Dedicated)
+      PM_play.command = "selectLevel(); fixPM();";
+   else
+      PM_play.command = "changeLevel(); fixPM();";
+}
+
+function fixPM() {
+   Canvas.popDialog(PlayMissionGui);
+   PM_Home.command = "disconnect(); Canvas.setContent(MainMenuGui);";
+   PM_join.setVisible(1);
+   PM_Toggle.setVisible(true);
+   PlayMissionGui.setBitmap("marble/client/ui/background");
+}
+
+function pauseDisconnect(%host) {
+   resumeGame();
+   if (%host) {
+      MessageBoxYesNo("Stop Server?", "Are you sure you want to stop the server?", "disconnect();");
+   } else {
+      MessageBoxYesNo("Exit Server?", "Are you sure you want to disconnect from this server?", "disconnect();");
+   }
+}
+
+function selectLevel() {
+   %id = PM_missionList.getSelectedId();
+   %mission = getField(PM_missionList.getRowTextById(%id), 1).file;
+   if ($MP::Core::DisableMPs && checkMPs(%mission)) {
+      MessageBoxOk("Moving Platforms", "ERROR: You cannot play a mission with moving platforms, as they will crash MultiPlayer or act glitchy!");
+      return;
+   }
+
+   commandToServer('StartMission', %mission);
+}
+
+function changeLevel() {
+   %id = PM_missionList.getSelectedId();
+   %mission = getField(PM_missionList.getRowTextById(%id), 1).file;
+   if ($MP::Core::DisableMPs && checkMPs(%mission)) {
+      MessageBoxOk("Moving Platforms", "ERROR: You cannot play a mission with moving platforms, as they will crash MultiPlayer or act glitchy!");
+      return;
+   }
+
+   continueHost();
+}

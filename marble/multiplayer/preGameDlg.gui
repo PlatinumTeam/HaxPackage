@@ -1,0 +1,387 @@
+//-----------------------------------------------------------------------------
+// preGameDlg.gui
+// Multiplayer Hax Package
+// Copyright (C) 2012 The Multiplayer Team
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//------------------------------------------------------------------------------
+
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(PreGameDlg) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "640 480";
+   minExtent = "8 8";
+   visible = "1";
+   helpTag = "0";
+
+   new GuiBitmapCtrl() {
+      profile = "GuiDefaultProfile";
+      horizSizing = "center";
+      vertSizing = "center";
+      position = "19 8";
+      extent = "602 464";
+      minExtent = "48 92";
+      visible = "1";
+      helpTag = "0";
+      bitmap = "~/client/ui/play/playgui";
+      wrap = "0";
+
+      new GuiMLTextCtrl(PreGameInformation) {
+         profile = "GuiMLTextProfile";
+         horizSizing = "center";
+         vertSizing = "bottom";
+         position = "78 42";
+         extent = "446 14";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         lineSpacing = "2";
+         allowColorChars = "0";
+         maxChars = "-1";
+      };
+      new GuiBitmapButtonCtrl(PreGameReady) {
+         profile = "GuiButtonProfile";
+         horizSizing = "left";
+         vertSizing = "top";
+         position = "341 380";
+         extent = "115 57";
+         minExtent = "8 8";
+         visible = "1";
+         command = "PreGameDlg.ready();";
+         accelerator = "enter";
+         helpTag = "0";
+         text = "Ready";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/ready";
+      };
+      new GuiBitmapButtonCtrl(PreGamePlay) {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "45 380";
+         extent = "101 58";
+         minExtent = "8 8";
+         visible = "1";
+         command = "PreGameDlg.play();";
+         helpTag = "0";
+         text = "Play";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "~/client/ui/play/play";
+      };
+      new GuiBitmapButtonCtrl(PreGameAdmin) {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "top";
+         position = "240 380";
+         extent = "96 58";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.pushDialog(AdminPanelDlg);";
+         helpTag = "0";
+         text = "Admin Panel";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/admin";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "479 381";
+         extent = "67 58";
+         minExtent = "8 8";
+         visible = "1";
+         command = "PreGameDlg.exit();";
+         accelerator = "escape";
+         helpTag = "0";
+         text = "Exit";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "~/client/ui/play/back";
+      };
+      new GuiBitmapCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "45 203";
+         extent = "502 94";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         bitmap = "./images/list";
+         wrap = "0";
+      };
+      new GuiBitmapCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "37 103";
+         extent = "511 93";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         bitmap = "./images/list";
+         wrap = "0";
+      };
+      new GuiScrollCtrl() {
+         profile = "GuiBigInvisibleScrollProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "71 112";
+         extent = "460 78";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         willFirstRespond = "1";
+         hScrollBar = "dynamic";
+         vScrollBar = "dynamic";
+         constantThumbHeight = "0";
+         childMargin = "0 0";
+
+         new GuiTextListCtrl(PreGameUserList) {
+            profile = "GuiBigTextListProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "458 8";
+            minExtent = "310 8";
+            visible = "1";
+            helpTag = "0";
+            enumerate = "0";
+            resizeCell = "0";
+            columns = "0 323 373";
+            fitParentWidth = "1";
+            clipColumnText = "0";
+         };
+      };
+      new GuiScrollCtrl(PreGameChatScroll) {
+         profile = "GuiBigInvisibleScrollProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "65 216";
+         extent = "463 67";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         willFirstRespond = "1";
+         hScrollBar = "dynamic";
+         vScrollBar = "dynamic";
+         constantThumbHeight = "0";
+         childMargin = "0 0";
+
+         new GuiTextListCtrl(PreGameChatList) {
+            profile = "GuiBigTextListProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "461 8";
+            minExtent = "310 8";
+            visible = "1";
+            helpTag = "0";
+            enumerate = "0";
+            resizeCell = "0";
+            columns = "0";
+            fitParentWidth = "1";
+            clipColumnText = "0";
+         };
+      };
+      new GuiBitmapCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "49 311";
+         extent = "404 46";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         bitmap = "./images/textarea";
+         wrap = "0";
+      };
+      new GuiTextEditCtrl(PreGameSendChat) {
+         profile = "GuiBigTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "70 316";
+         extent = "371 36";
+         minExtent = "300 8";
+         visible = "1";
+         altCommand = "PreGameDlg.sendChat();";
+         helpTag = "0";
+         maxLength = "255";
+         maxPixelWidth = "0";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(PreGameChatbutton) {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "451 304";
+         extent = "100 57";
+         minExtent = "8 8";
+         visible = "1";
+         command = "PreGameDlg.sendChat();";
+         helpTag = "0";
+         text = "Send";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/send";
+      };
+   };
+};
+//--- OBJECT WRITE END ---
+
+if (!$MP::Admin::EnableAdminPanel)
+   PreGameAdmin.delete();
+if (!$MP::Chat::EnableChat) {
+   PreGameSendChat.delete();
+   PreGameChatButton.delete();
+   PregameChatScroll.delete();
+}
+
+function PreGameDlg::onWake(%this) {
+   // Jeff: only local host can have access to some things
+   // admin panel has functions only for the host like
+   // kicking/banning users/(ip)
+   PreGameReady.setValue(false);
+   $PushPregame = false;
+   %this.ready();
+   %username = trim($pref::Multiplayer::Username);
+   commandToServer('SetUsername',%username);
+   if (isHost()) {
+      //PreGamePlay.setVisible(true);
+      PreGamePlay.setActive(true);
+      //PreGameAdmin.setVisible(true);
+      if ($MP::Admin::EnableAdminPanel)
+         PreGameAdmin.setActive(true);
+      commandToServer('UpdatePreGameUserList',true);
+   } else { // Jeff: dedicated server or joined clients!
+      //PreGamePlay.setVisible(false);
+      PreGamePlay.setActive(false);
+      //PreGameAdmin.setVisible(false);
+      if ($MP::Admin::EnableAdminPanel)
+         PreGameAdmin.setActive(false);
+      commandToServer('UpdatePreGameUserList',false);
+   }
+   if ($MP::Chat::EnableChat) {
+      PreGameChatList.clear();
+      ChatEdit.setValue("");
+      PreGameSendChat.setValue("");
+   }
+}
+
+function PreGameDlg::updateButtons(%this) {
+   if (isHost()) {
+      //PreGamePlay.setVisible(true);
+      PreGamePlay.setActive(true);
+      //PreGameAdmin.setVisible(true);
+      if ($MP::Admin::EnableAdminPanel)
+         PreGameAdmin.setActive(true);
+   } else { // Jeff: dedicated server or joined clients!
+      //PreGamePlay.setVisible(false);
+      PreGamePlay.setActive(false);
+      //PreGameAdmin.setVisible(false);
+      if ($MP::Admin::EnableAdminPanel)
+         PreGameAdmin.setActive(false);
+   }
+}
+
+// Jeff: update server info panel
+function PreGameDlg::changeServerInfo(%this, %dedicated, %info, %playerCount, %readyCount, %maxPlayers) {
+   PreGamePlay.setActive(isHost() && %playerCount == %readyCount);
+   %text = "<font:Arial:18><just:center>" @ (%dedicated ? "" : "Non-") @ "Dedicated Server" NL
+           "<font:Arial:14>Server Info:" SPC %info NL
+           "Players:" SPC %playerCount @ "/" @ %maxPlayers NL
+           "Ready Players:" SPC %readyCount @ "/" @ %playerCount;
+   PreGameInformation.setText(%text);
+}
+
+// Jeff: method for updating chat on pregame,
+// Auto scroll to the bottom also
+function PreGameDlg::updateChat(%this,%message) {
+   if (!$MP::Chat::EnableChat)
+      return;
+   PreGameChatList.addRow(PreGameChatList.rowCount(),%message);
+   PreGameChatScroll.scrollToBottom();
+}
+
+// Jeff: method that updates the user list and there status
+// of being ready, and host status
+function PreGameDlg::updateUserList(%this,%list) {
+   PreGameUserList.clear();
+   for (%i = 0; %i < getFieldCount(%list); %i += 3) {
+      echo("I" SPC %i SPC "Player:" SPC getField(%list,%i) SPC "Host" SPC getField(%list,%i+1) SPC "Ready" SPC getField(%list,%i+2));
+      PreGameUserList.addRow(PreGameUserList.rowCount(),getField(%list,%i) TAB (getField(%list,%i+1) ? "[HOST]" : "") TAB (getField(%list,%i+2) ? "[READY]" : ""));
+   }
+}
+
+// Jeff: chat sender
+function PreGameDlg::sendChat(%this) {
+   if (!$MP::Chat::EnableChat)
+      return;
+   %message = trim(PreGameSendChat.getValue());
+   PreGameSendChat.setValue("");
+   if (%message $= "")
+      return;
+   %message = $pref::Multiplayer::Username @ ":" SPC %message;
+   commandToServer('SendChat',%message);
+}
+
+// Jeff: ready status toggle
+function PreGameDlg::ready(%this) {
+   %ready = PreGameReady.getValue();
+   %isHost = isHost();
+   commandToServer('SignalReadyStatus',%ready,%isHost);
+}
+
+// Jeff: play, only allow the client to press it once so it does not spam
+function PreGameDlg::play(%this) {
+   if (isHost()) {
+      if ($MP::Chat::EnableChat)
+         commandToServer('SendChatFromPreGame',"[SERVER]: STARTING GAME");
+      PreGamePlay.setActive(false);
+      commandToAll('FixGhosts');
+      schedule(0,0,"commandToServer",'PreGamePlay'); // Matt: Previously 2000 miliseconds
+      PreGamePlay.schedule(0,"setActive",true); // Matt: Previously 2000 miliseconds
+   }
+}
+
+// Jeff: why on earth would you want to LEAVE MULTIPLAYER?!?!?
+function PreGameDlg::exit(%this) {
+   disconnect();
+}

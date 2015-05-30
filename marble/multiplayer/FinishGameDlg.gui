@@ -1,0 +1,137 @@
+//-----------------------------------------------------------------------------
+// FinishGameDlg.gui
+// Multiplayer Hax Package
+// Copyright (C) 2012 The Multiplayer Team
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//------------------------------------------------------------------------------
+
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(FinishGameDlg) {
+   profile = "GuiDialogProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "640 480";
+   minExtent = "8 8";
+   visible = "1";
+   helpTag = "0";
+
+   new GuiBitmapCtrl() {
+      profile = "GuiDefaultProfile";
+      horizSizing = "center";
+      vertSizing = "center";
+      position = "56 117";
+      extent = "528 245";
+      minExtent = "8 8";
+      visible = "1";
+      helpTag = "0";
+      bitmap = "~/client/ui/play/playgui";
+      wrap = "0";
+
+      new GuiBitmapButtonCtrl(FinishGameContinue) {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "388 173";
+         extent = "112 50";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.popDialog(FinishGameDlg);disconnect();";
+         helpTag = "0";
+         text = "button";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "~/client/ui/endgame/continue";
+      };
+      new GuiMLTextCtrl(FinishGameText) {
+         profile = "GuiMLTextProfile";
+         horizSizing = "center";
+         vertSizing = "bottom";
+         position = "36 32";
+         extent = "463 82";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         lineSpacing = "2";
+         allowColorChars = "0";
+         maxChars = "-1";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "44 175";
+         extent = "112 50";
+         minExtent = "8 8";
+         visible = "1";
+         command = "FinishGameDlg.replay();";
+         helpTag = "0";
+         text = "button";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "~/client/ui/endgame/replay";
+      };
+      new GuiBitmapButtonCtrl(FinishNewLevel) {
+         profile = "GuiDefaultProfile";
+         horizSizing = "center";
+         vertSizing = "bottom";
+         position = "213 175";
+         extent = "101 50";
+         minExtent = "8 8";
+         visible = "0";
+         command = "selectNewLevel();";
+         helpTag = "0";
+         text = "button";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/levels";
+      };
+   };
+};
+//--- OBJECT WRITE END ---
+
+function FinishGameDlg::onWake(%this) {
+   $EndGameShowing = true;
+   FinishNewLevel.setVisible($HostingMP || $Server::StandingHost);
+}
+
+function FinishGameDlg::onSleep(%this) {
+   $EndGameShowing = false;
+}
+
+function FinishGameDlg::replay(%this)
+{
+   if ($Server::ServerType $= "Multiplayer") {
+      Canvas.popDialog(FinishGameDlg);
+      Canvas.pushdialog(pregamedlg);
+   } else {
+      Canvas.popDialog(FinishGameDlg);
+      resumeGame();
+      restartLevel();
+   }
+}

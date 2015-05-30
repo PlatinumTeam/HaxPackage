@@ -1,0 +1,169 @@
+//-----------------------------------------------------------------------------
+// EnterPlayerNameDlg.gui
+// Multiplayer Hax Package
+// Copyright (C) 2012 The Multiplayer Team
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//------------------------------------------------------------------------------
+
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(EnterPlayerNameDlg) {
+   profile = "GuiDialogProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "640 480";
+   minExtent = "8 8";
+   visible = "1";
+   helpTag = "0";
+
+   new GuiBitmapCtrl() {
+      profile = "GuiDefaultProfile";
+      horizSizing = "center";
+      vertSizing = "center";
+      position = "112 111";
+      extent = "416 257";
+      minExtent = "8 8";
+      visible = "1";
+      helpTag = "0";
+      bitmap = "~/client/ui/play/playgui";
+      wrap = "0";
+
+      new GuiBitmapButtonCtrl(EnterPlayerNameContinue) {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "278 184";
+         extent = "113 52";
+         minExtent = "8 8";
+         visible = "1";
+         command = "continueHost();";
+         helpTag = "0";
+         text = "Button";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "~/client/ui/play/play";
+      };
+      new GuiBitmapCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "width";
+         vertSizing = "height";
+         position = "70 120";
+         extent = "295 55";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         bitmap = "common/ui/window";
+         wrap = "0";
+      };
+      new GuiMLTextCtrl(EnterPlayerNameText) {
+         profile = "GuiMLTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "41 30";
+         extent = "345 82";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         lineSpacing = "2";
+         allowColorChars = "0";
+         maxChars = "-1";
+      };
+      new GuiTextEditCtrl(EnterPlayerNameEdit) {
+         profile = "GuiBigTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "96 132";
+         extent = "255 36";
+         minExtent = "8 8";
+         visible = "1";
+         variable = "$pref::Multiplayer::Username";
+         command = "checkName();";
+         altCommand = "continueHost();";
+         helpTag = "0";
+         maxLength = "255";
+         maxPixelWidth = "145";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiBitmapButtonCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "34 184";
+         extent = "113 52";
+         minExtent = "8 8";
+         visible = "1";
+         command = "canvas.popdialog(EnterPlayerNameDlg);";
+         helpTag = "0";
+         text = "Cancel";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/cancel";
+      };
+      new GuiBitmapButtonCtrl(EnterPlayerNameServer) {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "156 184";
+         extent = "113 52";
+         minExtent = "8 8";
+         visible = "1";
+         command = "Canvas.pushDialog(EnterServerNameDlg);";
+         helpTag = "0";
+         text = "Button";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/server";
+      };
+   };
+};
+//--- OBJECT WRITE END ---
+
+function EnterPlayerNameDlg::show(%this, %cmd, %showName) {
+   EnterPlayerNameText.setText("<just:center><font:Expo:50>Multiplayer \n<font:DomCasualD:32>Please enter your name");
+   EnterPlayerNameEdit.setSelectionRange(0, 100000);
+   EnterPlayerNameEdit.setValue($pref::Multiplayer::username);
+   EnterPlayerNameContinue.command = %cmd;
+   EnterPlayerNameEdit.altcommand = %cmd;
+   EnterPlayerNameServer.setVisible(%showName);
+   checkName();
+   Canvas.pushDialog(%this);
+   EnterPlayerNameContinue.setActive(EnterPlayerNameEdit.getValue() !$= "");
+   if ($pref::Server::Multiplayer::ServerName $= "")
+      Canvas.pushDialog(EnterServerNameDlg);
+}
+
+function EnterPlayerNameDlg::onSleep(%this) {
+   EnterPlayerNameEdit.setValue(trim(EnterPlayerNameEdit.getValue()));
+}
+
+function checkName() {
+   EnterPlayerNameContinue.setActive(EnterPlayerNameEdit.getValue() !$= "");
+}

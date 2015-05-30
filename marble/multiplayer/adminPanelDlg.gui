@@ -1,0 +1,289 @@
+//-----------------------------------------------------------------------------
+// adminPanelDlg.gui
+// Multiplayer Hax Package
+// Copyright (C) 2012 The Multiplayer Team
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//------------------------------------------------------------------------------
+
+// Jeff: we need MAJOR security on this as this is for non-dedicated hosts
+
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(AdminPanelDlg) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "640 480";
+   minExtent = "8 8";
+   visible = "1";
+   helpTag = "0";
+
+   new GuiBitmapCtrl() {
+      profile = "GuiDefaultProfile";
+      horizSizing = "center";
+      vertSizing = "center";
+      position = "19 8";
+      extent = "602 464";
+      minExtent = "48 92";
+      visible = "1";
+      helpTag = "0";
+      bitmap = "~/client/ui/play/playgui";
+      wrap = "0";
+
+      new GuiBitmapCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "40 62";
+         extent = "529 282";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         bitmap = "./images/list";
+         wrap = "0";
+      };
+      new GuiMLTextCtrl(AdminPanelTitle) {
+         profile = "GuiMLTextProfile";
+         horizSizing = "center";
+         vertSizing = "bottom";
+         position = "78 42";
+         extent = "446 14";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         lineSpacing = "2";
+         allowColorChars = "0";
+         maxChars = "-1";
+      };
+      new GuiBitmapButtonCtrl(AdminPanelExit) {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "465 380";
+         extent = "101 58";
+         minExtent = "8 8";
+         visible = "1";
+         command = "AdminPanelDlg.exit();";
+         helpTag = "0";
+         text = "Exit";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/cancel";
+      };
+      new GuiBitmapButtonCtrl(AdminPanelKick) {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "50 380";
+         extent = "101 58";
+         minExtent = "8 8";
+         visible = "1";
+         command = "AdminPanelDlg.kickUser();";
+         helpTag = "0";
+         text = "Kick User";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/kick";
+      };
+      new GuiBitmapButtonCtrl(AdminPanelBan) {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "187 381";
+         extent = "101 58";
+         minExtent = "8 8";
+         visible = "1";
+         command = "AdminPanelDlg.banUser();";
+         helpTag = "0";
+         text = "Ban User";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/ban";
+      };
+      new GuiBitmapButtonCtrl(AdminPanelBanIP) {
+         profile = "GuiButtonProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "309 381";
+         extent = "101 58";
+         minExtent = "8 8";
+         visible = "1";
+         command = "AdminPanelDlg.banIP();";
+         helpTag = "0";
+         text = "Ban IP";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         repeatPeriod = "1000";
+         repeatDecay = "1";
+         bitmap = "./images/banip";
+      };
+      new GuiScrollCtrl() {
+         profile = "GuiBigInvisibleScrollProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "58 87";
+         extent = "498 247";
+         minExtent = "8 8";
+         visible = "1";
+         helpTag = "0";
+         willFirstRespond = "1";
+         hScrollBar = "dynamic";
+         vScrollBar = "dynamic";
+         constantThumbHeight = "0";
+         childMargin = "0 0";
+
+         new GuiTextListCtrl(AdminPanelUserList) {
+            profile = "GuiBigTextListProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "520 8";
+            minExtent = "310 8";
+            visible = "1";
+            command = "adminSelect();";
+            helpTag = "0";
+            enumerate = "0";
+            resizeCell = "0";
+            columns = "0 323 373";
+            fitParentWidth = "1";
+            clipColumnText = "0";
+         };
+      };
+   };
+};
+//--- OBJECT WRITE END ---
+
+function AdminPanelDlg::onWake(%this) {
+   // Jeff: if we are not the host FORCE EXIT
+   if (!isHost()) {
+      %this.exit();
+      return;
+   }
+   // Jeff: only local host can have access to some things
+   // admin panel has functions only for the host like
+   // kicking/banning users/(ip)
+   // Jeff: get user information
+   commandToServer('GetUserList');
+}
+
+// Jeff: kick user
+function AdminPanelDlg::kickUser(%this) {
+   if (!isHost())
+      return;
+   %row = getField(AdminPanelUserList.getRowTextById(AdminPanelUserList.getSelectedId()), 0);
+   if ($Server::Dedicated && $Server::StandingHost) {
+      commandToServer('kickUser', %row);
+      return;
+   }
+
+   for (%i = 0; %i < ClientGroup.getCount(); %i ++) {
+      %client = ClientGroup.getObject(%i);
+      %name = %client.nameBase;
+      if (%name $= %row) {
+         kick(%client);
+         return;
+      }
+   }
+}
+
+// Jeff: ban user
+function AdminPanelDlg::banUser(%this) {
+   if (!isHost())
+      return;
+   %row = getField(AdminPanelUserList.getRowTextById(AdminPanelUserList.getSelectedId()), 0);
+   if ($Server::Dedicated && $Server::StandingHost) {
+      commandToServer('banUser', %row);
+      return;
+   }
+
+   for (%i = 0; %i < ClientGroup.getCount(); %i ++) {
+      %client = ClientGroup.getObject(%i);
+      %name = %client.nameBase;
+      if (%name $= %row) {
+         ban(%name);
+         return;
+      }
+   }
+}
+
+// Jeff: ban ip address
+function AdminPanelDlg::banIP(%this) {
+   if (!isHost())
+      return;
+   %row = getField(AdminPanelUserList.getRowTextById(AdminPanelUserList.getSelectedId()), 0);
+   if ($Server::Dedicated && $Server::StandingHost) {
+      commandToServer('banIPUser', %row);
+      return;
+   }
+
+   for (%i = 0; %i < ClientGroup.getCount(); %i ++) {
+      %client = ClientGroup.getObject(%i);
+      %name = %client.nameBase;
+      if (%name $= %row) {
+         banip(%client.getIP());
+         return;
+      }
+   }
+}
+
+function AdminPanelDlg::update(%this) {
+   %row = getField(AdminPanelUserList.getRowTextById(AdminPanelUserList.getSelectedId()), 0);
+   if ($Server::Dedicated && $Server::StandingHost) {
+      %host = getField(AdminPanelUserList.getRowTextById(AdminPanelUserList.getSelectedId()), 1);
+      AdminPanelKick.setActive(%host $= "");
+      AdminPanelBan.setActive(%host $= "");
+      AdminPanelBanIP.setActive(%host $= "");
+   }
+   for (%i = 0; %i < ClientGroup.getCount(); %i ++) {
+      %client = ClientGroup.getObject(%i);
+      %name = %client.nameBase;
+      if (%name $= %row) {
+         AdminPanelKick.setActive(!%client.isHost());
+         AdminPanelBan.setActive(!%client.isHost());
+         AdminPanelBanIP.setActive(!%client.isHost());
+         return;
+      }
+   }
+}
+
+function AdminPanelDlg::exit(%this) {
+   saveAdminPrefs();
+   Canvas.popDialog(%this);
+   AdminPanelUserList.clear();
+}
+
+function saveAdminPrefs() {
+   if (!isHost())
+      return;
+   %output = $userMods @ "/multiplayer/adminPrefs.cs";
+   export("$Admin::*",%output,false);
+}
+
+function adminSelect() {
+   AdminPanelDlg.update();
+}
